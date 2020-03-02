@@ -48,7 +48,7 @@ def train():
 				if i//800-i/800==0:
 					lr=lr/10
 					opt=torch.optim.Adam(model.parameters(),lr)
-				train_bar.set_description('epoch:%s loss:%.5f'%(i,allloss/(j+1)))
+				train_bar.set_description('epoch:%s loss:%.5f'%(i,allloss))
 		torch.save(model,'./model/model'+str(i)+'.pth')
 
 if __name__=='__main__':
