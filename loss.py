@@ -28,6 +28,7 @@ class SSIM_Loss(nn.Module):
 		self.TV=TV_Loss()
 
 	def forward(self,IA,IB,IF):
+
 		if self.use_tv:
 			TV1=self.TV(IA,IF)
 			TV2=self.TV(IB,IF)
@@ -74,12 +75,7 @@ class SSIM_Loss(nn.Module):
 
 if __name__=='__main__':
 	criterion = SSIM_Loss()
-	output=torch.zeros((1,1,320,320))
-	output=output.cuda()
-	for i in range(0,60):
-		input1,input2=load_train_data('./data/TNO/',i)
-		loss1 = criterion(input1,input2,(input1+input2)/2)
-		loss2 = criterion(input1,input2,input1)
-		loss3 = criterion(input1,input2,input2)
-		loss4 = criterion(input1,input2,output)
-		print(loss1.item(),loss2.item(),loss3.item(),loss4.item())
+	input=torch.rand((2,1,320,320))
+	input=input.cuda()
+	loss=criterion(input,input,input)
+	print(loss.item())

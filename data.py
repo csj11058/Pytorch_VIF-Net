@@ -30,15 +30,15 @@ def image_loader(image_name,shape=320):
 		image=torch.reshape(image,(1,1,shape,shape))
 	return image
 
-def load_train_data(path,batch):
+def load_train_data(path,batch,batch_size):
 	dirname=os.listdir(path)
 	imgname=[]
 	for i in dirname:
 		img=os.listdir(path+i)
 		img=[path+i+'/'+img[0],path+i+'/'+img[1]]
 		imgname.append(img)
-	for i in range(batch,batch+1):
-		if i==batch:
+	for i in range(batch*batch_size,min(len(imgname),(batch+1)*batch_size)):
+		if i==batch*batch_size:
 			train_data1=image_loader(imgname[i][0])
 			train_data2=image_loader(imgname[i][1])
 		else:
@@ -46,10 +46,10 @@ def load_train_data(path,batch):
 			data2=image_loader(imgname[i][1])
 			train_data1=torch.cat((train_data1,data1),0)
 			train_data2=torch.cat((train_data2,data2),0)
-	train_data1=train_data1*255
-	train_data2=train_data2*255
-	return train_data1.cuda(),train_data2.cuda()
+	# train_data1=train_data1*255
+	# train_data2=train_data2*255
+	return train_data1.cuda(),train_data2.cuda(),len(imgname)
 
 if __name__=='__main__':
-	img1,img2=load_train_data()
+	img1,img2,img=load_train_data('./data/TNO/',1,1)
 	print(img1.shape,img2.shape)

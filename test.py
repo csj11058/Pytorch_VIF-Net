@@ -14,13 +14,14 @@ from data import *
 from model import *
 
 def test(model_path,index):
+	_,_,testdata=load_train_data('./data/TNO/',1,1)
 	model=torch.load(model_path)
 	model=model.cuda()
 	model.eval()
-	for i in range(0,60):
-		input1,input2=load_train_data('./data/TNO/',i)
-		output=model(input1,input2)
-		image_save(output,'./test/'+str(index)+'_'+str(i)+'.jpg')
+	# for i in range(0,testdata):
+	input1,input2,_=load_train_data('./data/TNO/',0,1)
+	output=model(input1,input2)
+	image_save(output,'./test/'+str(index)+'_'+str(0)+'.jpg')
 
 if __name__=='__main__':
 	modelname=os.listdir('./model/')
